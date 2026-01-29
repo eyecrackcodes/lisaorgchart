@@ -1,0 +1,303 @@
+/* 
+ * LuminaryLife Org Chart - Global Styles
+ * Depth-based indentation, node types, and tag pills
+ */
+
+/* CSS Variables */
+:root {
+  /* Colors */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #0ea5e9;
+  --color-purple: #8b5cf6;
+
+  /* Grays */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Node Type Colors */
+  --color-site: #0ea5e9;
+  --color-team: #22c55e;
+  --color-manager: #8b5cf6;
+  --color-agent: #6b7280;
+
+  /* Depth Indentation */
+  --depth-indent: 24px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* Global Utilities */
+.text-primary {
+  color: var(--color-primary);
+}
+.text-success {
+  color: var(--color-success);
+}
+.text-warning {
+  color: var(--color-warning);
+}
+.text-danger {
+  color: var(--color-danger);
+}
+.text-muted {
+  color: var(--color-gray-500);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-success {
+  background-color: var(--color-success);
+}
+.bg-warning {
+  background-color: var(--color-warning);
+}
+.bg-danger {
+  background-color: var(--color-danger);
+}
+
+/* Node Type Utilities */
+.node-site {
+  --node-color: var(--color-site);
+}
+.node-team {
+  --node-color: var(--color-team);
+}
+.node-manager {
+  --node-color: var(--color-manager);
+}
+.node-agent {
+  --node-color: var(--color-agent);
+}
+
+/* Depth-based Indentation Utilities */
+.depth-0 {
+  --current-depth: 0;
+}
+.depth-1 {
+  --current-depth: 1;
+}
+.depth-2 {
+  --current-depth: 2;
+}
+.depth-3 {
+  --current-depth: 3;
+}
+.depth-4 {
+  --current-depth: 4;
+}
+
+.indent-by-depth {
+  margin-left: calc(var(--current-depth, 0) * var(--depth-indent));
+}
+
+/* Tag Pills Base */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+/* Pre-defined Tag Colors */
+.tag-training {
+  background-color: #ffa500;
+}
+.tag-performance {
+  background-color: #228b22;
+}
+.tag-tier1 {
+  background-color: #4169e1;
+}
+.tag-tier2 {
+  background-color: #9370db;
+}
+.tag-tier3 {
+  background-color: #8b4513;
+}
+.tag-manager {
+  background-color: #2f4f4f;
+}
+.tag-new-hire {
+  background-color: #ffd700;
+  color: #1f2937;
+}
+.tag-tenured {
+  background-color: #006400;
+}
+.tag-active {
+  background-color: #32cd32;
+}
+.tag-inactive {
+  background-color: #808080;
+}
+.tag-hq {
+  background-color: #dc143c;
+}
+.tag-large-team {
+  background-color: #20b2aa;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-inactive {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.status-training {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* Commission Tier Badges */
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tier-1 {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.tier-2 {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+
+.tier-3 {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) ease;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-normal) ease;
+}
+
+.animate-slide-right {
+  animation: slideRight var(--transition-normal) ease;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+/* Print Styles */
+@media print {
+  .org-chart-filters,
+  .header-actions,
+  .close-btn,
+  .action-buttons {
+    display: none !important;
+  }
+
+  .org-chart-detail-panel {
+    position: static;
+    box-shadow: none;
+    border: 1px solid var(--color-gray-300);
+  }
+}
