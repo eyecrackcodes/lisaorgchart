@@ -6,6 +6,12 @@ import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 import * as signalR from '@microsoft/signalr';
 import type { GraphNodeProjection, GraphNodeDetail, GraphQuery, GraphNodeStats } from '@/types/graph';
 
+// Check if we're in demo mode (no API configured)
+function isDemoMode(): boolean {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  return !apiUrl || apiUrl === '' || apiUrl === 'undefined';
+}
+
 const hubUrl = import.meta.env.VITE_API_BASE_URL 
   ? `${import.meta.env.VITE_API_BASE_URL}/hubs/org-chart`
   : 'http://localhost:5000/hubs/org-chart';
@@ -26,6 +32,13 @@ export function useSignalR() {
   const onFilterApplied = ref<((data: { query: GraphQuery; results: GraphNodeProjection[] }) => void) | null>(null);
 
   async function connect() {
+    // Skip SignalR connection in demo mode
+    if (isDemoMode()) {
+      console.log('📡 Demo mode: SignalR connection skipped (no backend)');
+      isConnected.value = false;
+      return;
+    }
+
     if (connection && connection.state === signalR.HubConnectionState.Connected) {
       isConnected.value = true;
       return;
@@ -37,7 +50,7 @@ export function useSignalR() {
           withCredentials: true
         })
         .withAutomaticReconnect([0, 1000, 5000, 10000, 30000])
-        .configureLogging(signalR.LogLevel.Information)
+        .configureLogging(signalR.LogLevel.Warning)
         .build();
 
       // Register event handlers
