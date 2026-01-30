@@ -7,8 +7,9 @@ import type {
   OrgChartFilterOptions,
   OrgChartQueryParams,
 } from "@/types/orgChart";
+import { mockFilterOptions, isDemoMode } from "./mockData";
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000";
+const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 /**
  * Fetches the org chart tree with optional filtering
@@ -72,15 +73,26 @@ export async function fetchOrgChartFlat(
  * Fetches available filter options
  */
 export async function fetchFilterOptions(): Promise<OrgChartFilterOptions> {
-  const res = await fetch(`${baseUrl}/org-chart/filter-options`, {
-    headers: getHeaders(),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch filter options: ${res.statusText}`);
+  // Return mock data if no API configured (demo mode)
+  if (isDemoMode()) {
+    console.log('🔧 Demo mode: Using mock filter options');
+    return Promise.resolve(mockFilterOptions as OrgChartFilterOptions);
   }
 
-  return res.json();
+  try {
+    const res = await fetch(`${baseUrl}/org-chart/filter-options`, {
+      headers: getHeaders(),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch filter options: ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.warn('API unavailable, falling back to mock data:', error);
+    return mockFilterOptions as OrgChartFilterOptions;
+  }
 }
 
 /**

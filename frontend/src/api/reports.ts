@@ -3,22 +3,34 @@
  */
 
 import type { OrgReportData, OrgSummary, SiteComparison, TeamCompositionData } from '@/types/reports';
+import { mockReportData, isDemoMode } from './mockData';
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000';
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 /**
  * Fetches complete report data
  */
 export async function fetchReportData(): Promise<OrgReportData> {
-  const res = await fetch(`${baseUrl}/org-chart/reports`, {
-    headers: getHeaders()
-  });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch report data: ${res.statusText}`);
+  // Return mock data if no API configured (demo mode)
+  if (isDemoMode()) {
+    console.log('📊 Demo mode: Using mock report data');
+    return Promise.resolve(mockReportData);
   }
 
-  return res.json();
+  try {
+    const res = await fetch(`${baseUrl}/org-chart/reports`, {
+      headers: getHeaders()
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch report data: ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.warn('API unavailable, falling back to mock data:', error);
+    return mockReportData;
+  }
 }
 
 /**
